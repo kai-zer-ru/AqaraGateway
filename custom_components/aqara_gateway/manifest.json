@@ -2,15 +2,16 @@
   "domain": "aqara_gateway",
   "name": "Aqara Gateway",
   "config_flow": true,
-  "version": "0.3.3",
+  "version": "1.0.0",
   "zeroconf": ["_aqara._tcp.local.", "_aqara-setup._tcp.local."],
-  "documentation": "https://github.com/niceboygithub/AqaraGateway",
-  "issue_tracker": "https://github.com/niceboygithub/AqaraGateway/issues",
+  "documentation": "https://github.com/kai-zer-ru/AqaraGateway",
+  "issue_tracker": "https://github.com/kai-zer-ru/AqaraGateway/issues",
   "dependencies": [
   ],
   "after_dependencies": ["zeroconf"],
   "codeowners": [
-    "@niceboygithub"
+    "@niceboygithub",
+    "@kai-zer-ru"
   ],
   "requirements": [
     "paho-mqtt>=1.5.0"
