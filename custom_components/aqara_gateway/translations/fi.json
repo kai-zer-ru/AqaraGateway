@@ -1,0 +1,44 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Aqara Gateway on jo m\u00e4\u00e4ritetty"
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Palvelin",
+                    "password": "Password",
+                    "token": "API-tunnus",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Please enter connection settings of your Aqara Gateway."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "Palvelin",
+                    "password": "Password",
+                    "token": "API-tunnus",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet activ\u00e9",
+            "mqtt_connected": "MQTT connect\u00e9"
+        }
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Naprava je \u017ee nastavljena."
+        },
+        "error": {
+            "connection_error": "Ne morem se povezati z Aqara Gateway."
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "discovery_confirm": {
+                "description": "\u017delite dodati Aqara Gateway vozli\u0161\u010de ` {name} ` v Home Assistant?\n\n{device_info}",
+                "title": "Odkrita Aqara Gateway vozli\u0161\u010da"
+            },
+            "user": {
+                "data": {
+                    "host": "Gostitelj",
+                    "password": "Password",
+                    "token": "\u017eeton",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Prosimo, vnesite nastavitve povezave va\u0161ega vozli\u0161\u010da Aqara Gateway."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "Gostitelj",
+                    "password": "Password",
+                    "token": "\u017eeton",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet omogo\u010dena",
+            "mqtt_connected": "MQTT omogo\u010dena"
+        }
+    }
+}

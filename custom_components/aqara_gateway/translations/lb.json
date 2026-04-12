@@ -1,0 +1,51 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Apparat ass scho konfigur\u00e9iert"
+        },
+        "error": {
+            "connection_error": "Keng Verbindung zum Aqara Gateway."
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "discovery_confirm": {
+                "description": "W\u00ebllt dir den Aqara Gateway Provider `{name}` am Home Assistant dob\u00e4isetzen?\n\n{device_info}",
+                "title": "Entdeckten Aqara Gateway Provider"
+            },
+            "user": {
+                "data": {
+                    "host": "Apparat",
+                    "password": "Password",
+                    "token": "Jeton",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Gitt Verbindungs Informatioune vun \u00e4rem Aqara Gateway an."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "Apparat",
+                    "password": "Password",
+                    "token": "Jeton",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet aktiv\u00e9iert",
+            "mqtt_connected": "MQTT verbonnen"
+        }
+    }
+}

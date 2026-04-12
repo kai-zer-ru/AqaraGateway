@@ -1,0 +1,51 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Aqara Gateway \u00e4r redan konfigurerad"
+        },
+        "error": {
+            "connection_error": "Kan inte ansluta till Aqara Gateway."
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "discovery_confirm": {
+                "description": "Vill du l\u00e4gga till Aqara Gateway ` {name} ` till Home Assistant?\n\n{device_info}",
+                "title": "Uppt\u00e4ckt Aqara Gateway"
+            },
+            "user": {
+                "data": {
+                    "host": "V\u00e4rddatorn",
+                    "password": "Password",
+                    "token": "API  Token",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Ange anslutningsinst\u00e4llningarna f\u00f6r Aqara Gateway."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "V\u00e4rddatorn",
+                    "password": "Password",
+                    "token": "API  Token",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet Logged",
+            "mqtt_connected": "MQTT Connected"
+        }
+    }
+}

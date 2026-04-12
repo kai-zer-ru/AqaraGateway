@@ -1,0 +1,51 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Aqara Gateway sudah dikonfigurasi"
+        },
+        "error": {
+            "connection_error": "Can't connect to Aqara Gateway."
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "discovery_confirm": {
+                "description": "Do you want to add the Aqara Gateway `{name}` to Home Assistant? \n\n{device_info}",
+                "title": "Discovered Aqara Gateway"
+            },
+            "user": {
+                "data": {
+                    "host": "Host",
+                    "password": "Kata kunci",
+                    "token": "Token Akses",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Silakan masukkan kata kunci yang Anda atur di konfigurasi Anda."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "Host",
+                    "password": "Kata kunci",
+                    "token": "Token Akses",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet Logged",
+            "mqtt_connected": "MQTT Connected"
+        }
+    }
+}

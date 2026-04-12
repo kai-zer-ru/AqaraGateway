@@ -1,0 +1,51 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Aqara Gateway ya est\u00e1 configurado"
+        },
+        "error": {
+            "connection_error": "No se puede conectar a Aqara Gateway."
+        },
+        "flow_title": "Aqara Gateway: {name}",
+        "step": {
+            "discovery_confirm": {
+                "description": "\u00bfQuieres a\u00f1adir el nodo `{name}` de Aqara Gateway a Home Assistant?\n\n{device_info}",
+                "title": "Nodo Aqara Gateway descubierto"
+            },
+            "user": {
+                "data": {
+                    "host": "Host",
+                    "password": "Password",
+                    "token": "Token de acceso",
+                    "model": "Model",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message",
+                    "patched_firmware": "Patched Firmware"
+                },
+                "description": "Introduce la configuraci\u00f3n de la conexi\u00f3n de tu nodo Aqara Gateway."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Gateway Config",
+                "data": {
+                    "host": "Host",
+                    "password": "Password",
+                    "token": "Token de acceso",
+                    "model": "Model",
+                    "stats": "Stats",
+                    "debug": "Debug",
+                    "noffline": "Ignore Offline message"
+                }
+            }
+        }
+    },
+    "system_health": {
+        "info": {
+            "telnet_logged": "Telnet habilitada",
+            "mqtt_connected": "MQTT conectado"
+        }
+    }
+}
