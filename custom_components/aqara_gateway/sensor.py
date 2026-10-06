@@ -108,8 +108,34 @@ async def async_unload_entry(hass, entry):
 
 
 N100_MODELS = {"aqara.lock.bzacn3", "aqara.lock.bzacn4"}
-N100_RESTORE_SENSOR_ATTRS = {"battery", "lock"}
+# key_id / lock_event restore in GatewayKeyIDSensor / GatewayLockEventSensor
 N100_RESTORE_LOCK_EVENT_ATTRS = {"key_id", "lock_event"}
+# All other N100 sensor attrs (utils.py bzacn3/4 params with domain sensor)
+N100_RESTORE_SENSOR_ATTRS = frozenset({
+    "battery",
+    "lock",
+    "gateway timestamp",
+    "key_type",
+    "verification failed",
+    "verification failed security",
+    "unlock from inside",
+    "unlock by fingerprint",
+    "unlock by password",
+    "unlock by nfc",
+    "unlock by homekit",
+    "open in away mode",
+    "voltage",
+    "lock timestamp",
+    "user added",
+    "user removed",
+    "all user removed",
+    "nfc added",
+    "nfc removed",
+    "homekit reset",
+    "door",
+    "bluetooth",
+    "last_seen",
+})
 
 _VALID_SENSOR_DEVICE_CLASSES = frozenset(
     x.value for x in SensorDeviceClass
@@ -162,9 +188,12 @@ class GatewaySensor(GatewayGenericDevice, SensorEntity, RestoreEntity):
         if (
             self.device.get("model") in N100_MODELS
             and self._attr in N100_RESTORE_SENSOR_ATTRS
+            and self._attr not in N100_RESTORE_LOCK_EVENT_ATTRS
             and (last_state := await self.async_get_last_state()) is not None
         ):
-            self._state = _restore_sensor_state(last_state.state)
+            restored = _restore_sensor_state(last_state.state)
+            if restored is not None:
+                self._state = restored
 
     @property
     def state(self):
