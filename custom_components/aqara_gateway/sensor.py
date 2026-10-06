@@ -9,7 +9,7 @@ from homeassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.restore_state import RestoreEntity
 
 from . import DOMAIN, GatewayGenericDevice
@@ -108,6 +108,10 @@ N100_MODELS = {"aqara.lock.bzacn3", "aqara.lock.bzacn4"}
 N100_RESTORE_SENSOR_ATTRS = {"battery", "lock"}
 N100_RESTORE_LOCK_EVENT_ATTRS = {"key_id", "lock_event"}
 
+_VALID_SENSOR_DEVICE_CLASSES = frozenset(
+    x.value for x in SensorDeviceClass
+)
+
 
 def _restore_sensor_state(value):
     """Restore sensor state from Home Assistant state storage."""
@@ -167,9 +171,11 @@ class GatewaySensor(GatewayGenericDevice, SensorEntity, RestoreEntity):
     @property
     def device_class(self):
         """return device class."""
-        if "consumption" == self._attr:
+        if self._attr == "consumption":
             return "energy"
-        return self._attr
+        if self._attr in _VALID_SENSOR_DEVICE_CLASSES:
+            return self._attr
+        return None
 
     @property
     def unit_of_measurement(self):

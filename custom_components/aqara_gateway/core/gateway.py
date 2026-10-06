@@ -24,6 +24,7 @@ from .shell import (
     TelnetShellM2POE
 )
 from .utils import DEVICES, Utils, GLOBAL_PROP
+from .lock_data import DEVICE_MAPPINGS, SUPPORT_ALARM, SUPPORT_CAMERA, SUPPORT_DOORBELL, WITH_LI_BATTERY, SUPPORT_WIFI
 from .const import (
     CONF_MODEL,
     DOMAIN,
@@ -76,6 +77,7 @@ class Gateway:
         self.cloud = 'aiot'  # for fast access
         self._speaker_snapshot = {'label': 'Doorbell 1'}
         self.speaker_play_lock = asyncio.Lock()
+        self._n100_logged_dids = set()
 
     @property
     def device(self):
@@ -417,6 +419,77 @@ class Gateway:
 
         return devices
 
+    def _maybe_log_n100_capabilities(self, device: dict) -> None:
+        """Log one-time JSON report of Door Lock N100 spec (entities vs internal attrs)."""
+        model = device.get('model') or ''
+        did = device.get('did')
+        if model not in ('aqara.lock.bzacn3', 'aqara.lock.bzacn4') or not did:
+            return
+        if did in self._n100_logged_dids:
+            return
+        self._n100_logged_dids.add(did)
+
+        plist = device.get('params') or device.get('mi_spec') or []
+        rows = []
+        for tup in plist:
+            if isinstance(tup, (list, tuple)) and len(tup) >= 4:
+                rows.append({
+                    'mi_resource': tup[0],
+                    'zigbee/res_name': tup[1],
+                    'attr': tup[2],
+                    'domain': tup[3],
+                })
+            else:
+                rows.append({'raw': repr(tup)})
+        entities = [{'domain': t[3], 'attr': t[2]}
+                    for t in plist
+                    if isinstance(t, (list, tuple)) and len(t) >= 4 and t[3]]
+        internal_attrs = [
+            {'attr': t[2], 'zigbee/res_name': t[1]}
+            for t in plist
+            if isinstance(t, (list, tuple)) and len(t) >= 3 and t[2] is not None
+            and (len(t) < 4 or not t[3])]
+
+        bits = DEVICE_MAPPINGS.get(model)
+        support_human = []
+        if bits:
+            if bits & WITH_LI_BATTERY:
+                support_human.append('with_li_battery')
+            if bits & SUPPORT_ALARM:
+                support_human.append('alarm')
+            if bits & SUPPORT_DOORBELL:
+                support_human.append('doorbell')
+            if bits & SUPPORT_CAMERA:
+                support_human.append('camera')
+            if bits & SUPPORT_WIFI:
+                support_human.append('wifi')
+
+        hub_model = self._model or ''
+
+        report = {
+            'lock_model': model,
+            'did': did,
+            'mac': device.get('mac'),
+            'gateway_host': self.host,
+            'gateway_model_entry': hub_model,
+            'note': (
+                'internal_attrs — Zigbee/MIoT props without a HA entity '
+                '(some only appear in MQTT payloads). '
+                'No remote unlock service in integration; unlocking is on-device/hub.'
+            ),
+            'device_mapping_flags_decimal': bits,
+            'device_mapping_flags': support_human,
+            'ha_entities_from_definition': entities,
+            'internal_or_event_only_attrs': internal_attrs,
+            'full_params_table': rows,
+            'alarm_entity_on_hub_if_supported':
+                Utils.gateway_alarm_mode_supported(hub_model),
+        }
+        _LOGGER.info(
+            'Door Lock N100 capability report (JSON below).\n%s',
+            json.dumps(report, ensure_ascii=False, indent=2),
+        )
+
     async def async_setup_devices(self, devices: list):
         """Add devices to hass."""
         for device in devices:
@@ -439,6 +512,7 @@ class Gateway:
                     device.update(default_config)
 
                 self.devices[device['did']] = device
+                self._maybe_log_n100_capabilities(device)
 
                 for param in (device['params'] or device['mi_spec']):
                     domain = param[3]
@@ -455,6 +529,15 @@ class Gateway:
                         self._gateway_did = device['did']
 
                     self.setups[domain](self, device, attr)
+
+                if device['type'] == 'gateway':
+                    gb_timeout = 300
+                    while 'button' not in self.setups and gb_timeout > 0:
+                        await asyncio.sleep(1)
+                        gb_timeout -= 1
+                    if 'button' in self.setups:
+                        self.setups['button'](
+                            self, device, 'reboot_gateway')
 
                 if (device['type'] == 'gateway' and
                         Utils.gateway_speaker_supported(device['model'])):

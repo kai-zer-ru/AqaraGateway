@@ -2,7 +2,7 @@
   "title": "Aqara Gateway",
   "config":{
      "abort":{
-        "already_configured":"[%key:common::config_flow::abort::already_configured_device%]",
+        "already_configured":"[%key:common::config_flow::abort::already_configured_device%]"
      },
      "step":{
         "user":{
@@ -17,5 +17,12 @@
         }
      },
      "flow_title":"Aqara Gateway: {name}"
+  },
+  "entity": {
+    "button": {
+      "reboot_gateway": {
+        "name": "Restart gateway"
+      }
+    }
   }
 }

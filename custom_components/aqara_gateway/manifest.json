@@ -2,7 +2,7 @@
   "domain": "aqara_gateway",
   "name": "Aqara Gateway",
   "config_flow": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "zeroconf": ["_aqara._tcp.local.", "_aqara-setup._tcp.local."],
   "documentation": "https://github.com/kai-zer-ru/AqaraGateway",
   "issue_tracker": "https://github.com/kai-zer-ru/AqaraGateway/issues",

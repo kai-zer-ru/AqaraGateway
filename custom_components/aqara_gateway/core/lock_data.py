@@ -101,6 +101,8 @@ LOCK_NOTIFICATION = {
         "1": "Away-from-home mode is enabled"},
     "nfc added": {"default": "Added NFC card or Tag"},
     "nfc removed": {"default": "Removed NFC card or Tag"},
+    "verification failed security": {
+        "default": "door lock security verification failed"},
     "verification failed": {
         "default": "door lock verifications failed",
         "3235774464": "Frequent door opening failures due to incorrect passwords",

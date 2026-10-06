@@ -47,5 +47,12 @@
             "telnet_logged": "Telnet Logged",
             "mqtt_connected": "MQTT Connected"
         }
+    },
+    "entity": {
+        "button": {
+            "reboot_gateway": {
+                "name": "Restart gateway"
+            }
+        }
     }
 }

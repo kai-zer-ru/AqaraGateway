@@ -4,9 +4,11 @@ import logging
 from functools import partial
 
 from homeassistant.components.button import ButtonEntity
+from homeassistant.helpers.entity import EntityCategory
 
 from . import DOMAIN, GatewayGenericDevice
 from .core.gateway import Gateway
+from .core.gateway_reboot import reboot_gateway_via_telnet
 from .core.gateway_speaker import SPEAKER_LABEL_TO_FILE, play_speaker_scene
 
 _LOGGER = logging.getLogger(__name__)
@@ -16,7 +18,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up button platform."""
 
     def setup(gateway: Gateway, device: dict, attr: str):
-        if attr == 'speaker_play':
+        if attr == 'reboot_gateway':
+            async_add_entities([GatewayHubRebootButton(gateway, device, attr)])
+        elif attr == 'speaker_play':
             _LOGGER.info(
                 "button setup: registering Speaker Play gateway=%s model=%s did=%s",
                 gateway.host,
@@ -33,6 +37,30 @@ async def async_unload_entry(hass, entry):
     # pylint: disable=unused-argument
     """unload entry"""
     return True
+
+
+class GatewayHubRebootButton(GatewayGenericDevice, ButtonEntity):
+    """Hardware reboot via telnet (sync; reboot)."""
+
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_has_entity_name = True
+    _attr_translation_key = 'reboot_gateway'
+    _attr_icon = 'mdi:restart'
+
+    def __init__(self, gateway: Gateway, device: dict, attr: str):
+        super().__init__(gateway, device, attr)
+
+    async def async_added_to_hass(self) -> None:
+        """No MQTT subscription."""
+
+    async def async_will_remove_from_hass(self) -> None:
+        """Nothing to unsubscribe."""
+
+    async def async_press(self) -> None:
+        await self.hass.async_add_executor_job(
+            reboot_gateway_via_telnet,
+            self.gateway,
+        )
 
 
 class GatewaySpeakerPlayButton(GatewayGenericDevice, ButtonEntity):
