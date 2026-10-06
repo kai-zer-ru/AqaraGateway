@@ -2,7 +2,7 @@
   "domain": "aqara_gateway",
   "name": "Aqara Gateway",
   "config_flow": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "zeroconf": ["_aqara._tcp.local.", "_aqara-setup._tcp.local."],
   "documentation": "https://github.com/kai-zer-ru/AqaraGateway",
   "issue_tracker": "https://github.com/kai-zer-ru/AqaraGateway/issues",
@@ -15,5 +15,6 @@
   ],
   "requirements": [
     "paho-mqtt>=1.5.0"
-  ]
+  ],
+  "loggers": ["custom_components.aqara_gateway"]
 }

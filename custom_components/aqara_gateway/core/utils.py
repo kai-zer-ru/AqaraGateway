@@ -358,7 +358,7 @@ DEVICES = [{
     'lumi.light.acn024': ["Aqara", "Spotlight T2 (24 degree)", "LTSZNSD02LM"],
     'lumi.light.acn023': ["Aqara", "Spotlight T2 (15 degree)", "LTSZNSD01LM"],
     'lumi.light.acn131': ["Aqara", "Downlight T3", "LGYCDD02LM"],
-    'lumi.light.acn132': ["Aqara", "Colorful Light Strip T3", "LGYCDD01LM"],
+#    'lumi.light.acn132': ["Aqara", "Colorful Light Strip T3", "LGYCDD01LM"],
     'lumi.light.acn130': ["Aqara", "Spotlight T3 (36 degree)", "LGYCDD03LM"],
     'lumi.light.acn129': ["Aqara", "Spotlight T3 (24 degree)", "LGYCDD04LM"],
     'lumi.light.acn128': ["Aqara", "Spotlight T3", "LGYCDD05LM"],
@@ -386,7 +386,6 @@ DEVICES = [{
     'lumi.dimmer.acn003': ["Aqara", "RGBW LED Dimmer T1 (60W)", "AL010CNW01"],
     'lumi.dimmer.acn002': ["Aqara", "RGBW LED Dimmer T2 (24W)", ""],
     'lumi.dimmer.acn001': ["Aqara", "RGBW LED Dimmer T2", ""],
-    'lumi.light.acn132': ["Aqara", "LED Strip T1", "LGYCDD01LM"],
     'params': [
         ['1.10.85', None, 'present_mode', None],
         ['0.12.85', 'load_power', 'power', 'sensor'],
@@ -403,13 +402,32 @@ DEVICES = [{
     ]
 }, {
     # light with brightness and color temp
+    'lumi.light.acn132': ["Aqara", "LED Strip T1", "LGYCDD01LM"],
+    'params': [
+        ['1.7.85', 'light_level', 'brightness', None],
+        ['1.9.85', 'colour_temperature', 'color_temp', None],
+        ['1.10.85', None, 'present_mode', None],
+        ['0.12.85', 'load_power', 'power', 'sensor'],
+        ['14.1.85', 'light_level', 'brightness', None],
+        ['14.2.85', 'colour_temperature', 'color_temp', None],
+        ['14.5.85', 'rgb_color', 'rgb_color', None],
+        ['4.1.85', 'power_status', 'light', 'light'],
+        ['14.12.85', 'light_level', 'brightness', None],
+        ['14.16.85', 'colour_temperature', 'color_temp', None],
+        ['4.2.85', 'power_status', 'sub light', 'light'],
+        ['14.46.85', None, 'dual_color_temperature_mode', None],
+        ['8.0.2022', None, 'ambilight', None],
+        ['8.0.2150', None, 'dynamic', None],
+        ['14.163.85', None, 'music_mode', 'select'],
+    ]
+}, {
+    # light with brightness and color temp
     'lumi.light.acn031': ["Aqara", "Ceiling Lamp T1 ", "HCXDD11LM"],
     'lumi.light.acn032': ["Aqara", "Ceiling Lamp T1 (40W)", "HCXDD12LM"],
     'lumi.light.acn033': ["Aqara", "Ceiling Lamp H1", "HCXDD13LM"],
     'params': [
         ['1.10.85', None, 'present_mode', None],
         ['0.12.85', 'load_power', 'power', 'sensor'],
-        ['14.1.85', 'light_level', 'brightness', None],
         ['4.1.85', 'power_status', 'light', 'light'],
         ['1.7.85', 'light_level', 'brightness', None],
         ['1.9.85', 'colour_temperature', 'color_temp', None],
@@ -523,7 +541,7 @@ DEVICES = [{
         ['14.56.85', None, 'detecting_region', None],
         ['13.21.85', None, 'occupancy_region', 'sensor'],
         ['13.27.85', None, 'movements', 'sensor'],
-        ['4.1.85', None, 'monitoring_mode', 'select'],
+        ['4.1.85', None, 'monitoring_mode', None],
         ['4.2.85', None, 'reverted_mode', 'select'],
         ['14.47.85', None, 'approaching_distance', 'select'],
     ]
@@ -925,9 +943,12 @@ DEVICES = [{
     'lumi.airrtc.vrfegl01': ["Xiaomi", "VRF Air Conditioning"],
     'aqara.airrtc.ecn001': ["Aqara", "VRF Air Conditioning T1"],
     'params': [
-        ['13.1.85', None, 'channels', 'sensor'],
-        ['4.1.85', 'ac_state', 'climate 1', 'climate'],
-        ['4.2.85', 'ac_state', 'climate 2', 'climate'],
+        # Base sensors only; climate zones are injected dynamically
+        # by gateway.py based on user-configured VRF unit IDs.
+        ['8.0.2007', 'lqi', 'LQI', 'sensor'],
+        ['8.0.2223', 'back_version', 'back_version', None],
+        ['8.0.2238', 'db_version', 'DB Version', 'sensor'],
+        ['8.0.2226', 'sn_code', 'sn_code', None],
     ]
 }, {
     # button rotation
@@ -983,20 +1004,24 @@ DEVICES = [{
 }, {
     'lumi.curtain.acn010': ["Aqara", "Organ™ Smart Curtain Motor C4", "DSKDJ11LM"],
     'params': [
-        ['0.57.85', 'curtain_ch0_level', 'position', None],
-        ['0.58.85', 'curtain_ch1_level', 'position', None],
+        ['0.57.85', 'curtain_ch0_level', 'ch0_position', None],
+        ['0.58.85', 'curtain_ch1_level', 'ch1_position', None],
         ['13.4.85', 'run_status', 'run_state', None],
-        ['13.11.85', 'ch0_run_state', 'run_state', None],
+        ['13.11.85', 'ch0_run_state', 'ch0_run_state', None],
+        ['13.21.85', 'ch1_run_state', 'ch1_run_state', None],
         ['0.21.85', '0.21.85', '0.21.85', None],
         ['13.14.85', '13.14.85', '13.14.85', None],
         ['13.15.85', '13.15.85', '13.15.85', None],
-        ['13.21.85', 'ch1_run_state', 'run_state', None],
         ['13.13.85', None, 'mode', None],
         ['14.11.85', None, 'ch0_polarity', None],
         ['14.21.85', None, 'ch1_polarity', None],
-        ['14.35.85', None, 'speed', None],
+        ['14.35.85', None, 'speed', 'select'],
+        ['14.2.85', None, 'motor', 'cover'],
         ['1.11.85', None, 'ch0_motor', 'cover'],
         ['1.21.85', None, 'ch1_motor', 'cover'],
+        ['4.3.85', None, 'manual_enable', 'switch'], # 手动开/关窗帘
+        ['8.0.2032', None, 'en_night_tip_light', 'switch'], #指示灯勿扰，1是关闭指示灯
+        ['8.0.2096', None, 'find_device', 'button'], # 查找设备
     ]
 }, {
     'lumi.curtain.acn011': ["Aqara", "Smart Vertical Blinds Controller H1", "ZNMHLDJ01LM"],
@@ -2101,6 +2126,9 @@ class Utils:
                 return {"Weak": 0, "Middle Weak": 1, "Middle": 2, "Middle Strong": 3, "Strong": 4}
             if attr == 'warn dry':
                 return {"Off": 0, "Normal": 1, "Low": 2, "Middle Low": 3, "Middle": 4, "Middle High": 5, "High": 6}
+        if zigbee_model in ['lumi.curtain.acn010']:
+            if attr == 'speed':
+                return {"Low": 2, "Middle": 3, "High": 4}
         return {"Off": 0, "On": 1}
 
     @staticmethod

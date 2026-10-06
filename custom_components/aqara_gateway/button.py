@@ -1,4 +1,4 @@
-"""Gateway speaker play button (local WAV via telnet)."""
+"""Gateway buttons: reboot, speaker play, and Aqara device actions."""
 
 import logging
 from functools import partial
@@ -28,6 +28,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
                 device.get("did"),
             )
             async_add_entities([GatewaySpeakerPlayButton(gateway, device, attr)])
+        else:
+            async_add_entities([GatewayButton(gateway, device, attr)])
 
     gateway: Gateway = hass.data[DOMAIN][config_entry.entry_id]
     gateway.add_setup('button', setup)
@@ -77,8 +79,6 @@ class GatewaySpeakerPlayButton(GatewayGenericDevice, ButtonEntity):
             self.entity_id,
             self.gateway.host,
         )
-        # Один активный play на шлюз; следующее нажатие ждёт. Снимок — после
-        # получения lock, чтобы учесть смену мелодии пока ждали.
         async with self.gateway.speaker_play_lock:
             snap = dict(self.gateway._speaker_snapshot)
             label = snap.get('label', 'Doorbell 1')
@@ -106,3 +106,22 @@ class GatewaySpeakerPlayButton(GatewayGenericDevice, ButtonEntity):
             _LOGGER.debug(
                 "Speaker Play executor_job done entity=%s", self.entity_id
             )
+
+
+class GatewayButton(GatewayGenericDevice, ButtonEntity):
+    """Representation of an Aqara button entity (e.g. find_device)."""
+
+    @property
+    def icon(self):
+        """Return icon."""
+        if self._attr == 'find_device':
+            return 'mdi:radar'
+        return 'mdi:gesture-tap-button'
+
+    def update(self, data: dict):
+        """Buttons are stateless."""
+        return None
+
+    async def async_press(self) -> None:
+        """Press the button."""
+        self.gateway.send(self.device, {self._attr: 1})
